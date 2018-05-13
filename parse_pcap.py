@@ -79,11 +79,3 @@ if __name__ == '__main__':
    test_data = 'testdata/test_pcap.pcap'
    packets = rdpcap(test_data)
    start(packets)
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> ee45ab6d415ded44d58045b61123a1ccb1f4ec4b
