@@ -81,34 +81,3 @@ if __name__ == '__main__':
    test_data = 'testdata/test_pcap.pcap'
    packets = rdpcap(test_data)
    start(packets)
-
-'''
-#get the hex of the entire packet
-raw(packets[-1]).encode('HEX')
-'''
-
-'''
-#find DNS
-if DNS in packets[0]
-'''
-
-'''
-#find tcp
-if TCP in packets[0]
-
-#find TCP dports
-packets[-1][Ether][TCP].dport
-
-#find TCP sports
-packets[-1][Ether][TCP].dport
-'''
-
-'''
-#find UDP
-if UDP in packets[0]
-'''
-
-
-
-
-
