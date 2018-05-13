@@ -58,7 +58,6 @@ def weird_packet(packet):
 
 def start(packets):
    packet_objects = []
-   count = 0
 
    for packet in packets:
       if packet.haslayer('TCP'):
@@ -74,7 +73,6 @@ def start(packets):
       else:
          print 'Weird'
          weird_packet(packet)
-      count +=1
 
 if __name__ == '__main__':
 
