@@ -11,6 +11,8 @@ ADD the UDP sizza in
 
 from scapy.all import *
 from packets import *
+import rule_builder
+import base64
 
 def parse_tcp(packet):
    packet_object = ''
@@ -25,20 +27,21 @@ def parse_tcp(packet):
    else:
       payload = ''  
    raw_packet = raw(packet).encode('HEX')
+   packet_base64 = base64.b64encode(str(packet))
    if source_port == 80 or dest_port == 80:
-      packet_object = HTTP(source_IP, dst_IP, source_port, dest_port, payload, raw_packet)
+      packet_object = HTTP(source_IP, dst_IP, source_port, dest_port, payload, raw_packet, packet_base64)
       object_type = 'HTTP'
    elif source_port == 443 or dest_port == 443:
-      packet_object = HTTPS(source_IP, dst_IP, source_port, dest_port, payload, raw_packet)
+      packet_object = HTTPS(source_IP, dst_IP, source_port, dest_port, payload, raw_packet, packet_base64)
       object_type = 'HTTPS'
    elif source_port == 22 or dest_port == 22:
-      packet_object = SSH(source_IP, dst_IP, source_port, dest_port, payload, raw_packet)   
+      packet_object = SSH(source_IP, dst_IP, source_port, dest_port, payload, raw_packet, packet_base64)   
       object_type = 'SSH'
    elif source_port == 23 or dest_port == 23:
-      packet_object = TELNET(source_IP, dst_IP, source_port, dest_port, payload, raw_packet)
+      packet_object = TELNET(source_IP, dst_IP, source_port, dest_port, payload, raw_packet, packet_base64)
       object_type = 'TELNET'
    else:
-      #packet_object = WEIRD(source_IP, dst_IP, source_port, dest_port, payload, raw_packet)
+      #packet_object = WEIRD(source_IP, dst_IP, source_port, dest_port, payload, raw_packet, packet_base64)
       #object_type = 'WEIRD'
       packet_object = ''
       object_type = '' 
@@ -69,18 +72,19 @@ def start(packets):
    for packet in packets:
       if packet.haslayer('TCP'):
          packet_obj, object_type = parse_tcp(packet)
-         dict = {'object': packet_obj, 'object_type': object_type}
-         packet_objects.append(packet_obj)
+         obj_dict = {'object': packet_obj, 'object_type': object_type}
+         packet_objects.append(obj_dict)
       elif packet.haslayer('UDP'):
-         print 'UDP'
          parse_udp(packet)
       elif packet.haslayer('ICMP'):
-         print 'ICMP'
          parse_ICMP(packet)
       else:
-         print 'Weird'
          weird_packet(packet)
-
+   attacker = raw_input("Type the IP of the attacker\n>>")
+   target = raw_input("type the IP of the target\n>>")
+   proto = raw_input("type the protocol used\n>>")
+   rule_builder.start(packet_objects, attacker, target, proto)
+             
 if __name__ == '__main__':
 
    test_data = 'testdata/test_pcap.pcap'
