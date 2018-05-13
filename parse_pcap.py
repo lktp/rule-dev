@@ -15,9 +15,7 @@ from packets import *
 def parse_tcp(packet):
    packet_object = ''
    object_type = ''
-   '''
-   source_IP, dst_IP, source_port, dest_port, payload, raw_packet
-   '''
+
    source_IP = packet.getlayer('IP').src
    dst_IP = packet.getlayer('IP').dst
    source_port = packet.getlayer('TCP').sport
@@ -48,12 +46,21 @@ def parse_tcp(packet):
    return packet_object, object_type
 
 def parse_udp(packet):
+   '''
+   Will be built once i figure out the logic for building rules using the TCP rules.
+   '''
    pass
 
 def parse_icmp(packet):
+   '''
+   Will be built once i figure out the logic for building rules using the TCP rules.
+   '''   
    pass
 
 def weird_packet(packet):
+   '''
+   Will be built once i figure out the logic for building rules using the TCP rules.
+   '''   
    pass
 
 def start(packets):

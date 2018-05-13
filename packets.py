@@ -5,14 +5,42 @@ TODO:
       TELNET
 
 
+PACKET
+  |
+  |
+  ---> TCP 
+  |      |
+  |      -->HTTP
+  |      |
+  |      -->HTTPS
+  |      |
+  |      --> FTP
+  |      |
+  |      --> SSH
+  |      |
+  |      --> TELNET
+  |
+  ---> UDP
+  |      |
+  |      --> DNS
+  |
+  ---> ICMP
+
 '''
+#PACKET CLASS
+
+#Main class
+class PACKET(object):
+   def __init__(self, source_IP, dst_IP):
+      self.source_IP = source_IP
+      self.dst_IP = dst_IP
 
 
 #TCP Classes
-class TCP(object):
+
+class TCP(PACKET):
    def __init__(self, source_IP, dst_IP, source_port, dest_port):
-      self.source_IP = source_IP
-      self.dst_IP = dst_IP
+      PACKET.__init__(self, source_IP, dst_IP)
       self.source_port = source_port
       self.dest_port = dest_port
 
@@ -35,10 +63,9 @@ class FTP(TCP):
       self.raw_packet = raw_packet
 
 #UDP classes
-class UDP(object):
+class UDP(PACKET):
    def __init__(self,source_IP, dst_IP, source_port, dest_port, payload, raw_packet):
-      self.source_IP = source_IP
-      self.dst_IP = dst_IP
+      PACKET.__init__(self, source_IP, dst_IP)
       self.source_port = source_port
       self.dest_port = dest_port
 
@@ -50,8 +77,9 @@ class DNS(UDP):
 
 
 #ICMP class
-class ICMP(object):
+class ICMP(PACKET):
    def __init__(self, source_IP, dst_IP):
+      PACKET.__INIT__(self, source_IP, dst_IP)
       self.source_IP = source_IP
       self.dst_IP = dst_IP
 
